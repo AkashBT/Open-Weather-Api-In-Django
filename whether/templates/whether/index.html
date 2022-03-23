@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<title>WeatherApp</title>
+<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css'>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<style>
+    table,tr,td{
+        border:1px solid black;
+        width:500px;
+    }
+    table,tr,td{
+        border:collapsed;
+    }
+    td{
+        padding:5px;
+    }
+    #datadiv{
+        background-color: rgba(0,0,0,0.2);
+        border: 20px solid gray;
+        padding:50px;
+        box-shadow: 5px 5px 5px;
+    }
+</style>
+
+</head>
+<body>
+<div align='center' class="my-5">
+<h1 > Weather in your city</h1>
+<form action='' method='POST' name="cityform">
+    {% csrf_token %}
+<input type='text' id='city' name='city' placeholder='Enter city' required>
+
+<input type='submit' name='send' value='Search' class="btn btn-secondary">
+</form>
+</div>
+
+{% if data %}
+<div class="container" align='center' id="datadiv">
+
+    <h1 style="text-align:center;">Weather Report </h1>
+
+
+    {% comment %} <table>
+        <tr>
+            <td>City</td>
+            <td>{{city1}}</td>
+        </tr>
+        <tr>
+            <td>Longitude</td>
+            <td>{{Lon}}</td>
+        </tr>
+        <tr>
+            <td>Latitude</td>
+            <td>{{lat}}</td>
+        </tr>
+        <tr>
+            <td>Weather</td>
+            <td>{{weather}}</td>
+        </tr>
+        <tr>
+            <td>Temperature</td>
+            <td>{{temperature}}</td>
+        </tr>
+        <tr>
+            <td>pressure</td>
+            <td>{{pressure}}</td>
+        </tr>
+        <tr>
+            <td>Humidity</td>
+            <td>{{humidity}}</td>
+        </tr>
+    </table> {% endcomment %}
+
+
+    <table>
+        {% for key, value in data.items %}
+        <tr>
+            <td> {{ key }} </td> 
+            <td> {{ value }} </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+
+
+    </div>
+{% else %}
+    <div>
+        {% if messages %}
+        {% for message in messages %}
+        <h3 class="text-danger text-center"><span {% if message.tags %} class="{{ message.tags }} " {% endif %}>
+            {{ message }}</span></h1>
+        {% endfor %}
+        {% else %}
+        <h3 style="text-align:center;" class="text-danger">Please Select City</h3>
+        {% endif %}
+        
+    </div>
+{% endif %}
+
+
+
+
+
+</body>
+</html>
